@@ -3,17 +3,54 @@
   <head>
     <title></title>
     <!-- Missing descriptive title -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body class="test-accessibility">
+    <div class="interactive"></div>
     <!-- SVG without aria-label or aria-hidden -->
-    <svg viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="40" />
-    </svg>
+    <div class="test-accessibility__content">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" />
+      </svg>
+  
+      <!-- Canvas without fallback content -->
+      <canvas></canvas>
+  
+      <!-- Object without fallback or text alternative -->
+      <object data="movie.swf" type="application/x-shockwave-flash"></object>
+    </div>
+    <script type="module">
+      document.addEventListener("DOMContentLoaded", () => {
+        const interBubble = document.querySelector(".interactive");
+        let curX = 0;
+        let curY = 0;
+        let tgX = 0;
+        let tgY = 0;
 
-    <!-- Canvas without fallback content -->
-    <canvas></canvas>
+        function move() {
+          curX += (tgX - curX) / 20;
+          curY += (tgY - curY) / 20;
+          if (interBubble) {
+            interBubble.style.transform = `translate(${Math.round(
+              curX
+            )}px, ${Math.round(curY)}px)`;
+          }
+          requestAnimationFrame(move);
+        }
 
-    <!-- Object without fallback or text alternative -->
-    <object data="movie.swf" type="application/x-shockwave-flash"></object>
+        window.addEventListener("mousemove", (event) => {
+          tgX = event.clientX;
+          tgY = event.clientY;
+        });
+
+        move();
+      });
+    </script>
   </body>
 </html>

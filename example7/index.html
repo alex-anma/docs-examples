@@ -1,21 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Form Test</title>
-</head>
-<body>
-
-    <!-- Form with fields lacking labels -->
-    <form>
-        <input type="text" name="name" placeholder="Your name">
-        <input type="email" name="email">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="test-accessibility">
+    <div class="interactive"></div>
+    <main>
+      <!-- Form with fields lacking labels -->
+      <form class="test-accessibility__content">
+        <div>
+          <input type="text" name="name" placeholder="Your name" />
+          <input type="email" name="email" />
+        </div>
         <select>
-            <option value="1">One</option>
+          <option value="1">One</option>
         </select>
-    </form>
+      </form>
 
-    <!-- Button with only icon, missing aria-label -->
-    <button><i class="icon-send"></i></button>
+      <!-- Button with only icon, missing aria-label -->
+      <button><i class="icon-send"></i></button>
+    </main>
+    <script type="module">
+      document.addEventListener("DOMContentLoaded", () => {
+        const interBubble = document.querySelector(".interactive");
+        let curX = 0;
+        let curY = 0;
+        let tgX = 0;
+        let tgY = 0;
 
-</body>
+        function move() {
+          curX += (tgX - curX) / 20;
+          curY += (tgY - curY) / 20;
+          if (interBubble) {
+            interBubble.style.transform = `translate(${Math.round(
+              curX
+            )}px, ${Math.round(curY)}px)`;
+          }
+          requestAnimationFrame(move);
+        }
+
+        window.addEventListener("mousemove", (event) => {
+          tgX = event.clientX;
+          tgY = event.clientY;
+        });
+
+        move();
+      });
+    </script>
+  </body>
 </html>
