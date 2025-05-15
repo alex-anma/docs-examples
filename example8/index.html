@@ -1,25 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Contrast and Resize</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet" />
-</head>
-<body class="test-accessibility">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="test-accessibility">
+    <div class="interactive"></div>
+
     <section class="test-accessibility__content">
+      <!-- Low contrast text -->
+      <p style="color: #999999; background-color: #ffffff">
+        Low contrast paragraph
+      </p>
 
-        <!-- Low contrast text -->
-        <p style="color: #999999; background-color: #ffffff;">Low contrast paragraph</p>
-    
-        <!-- Text in px units -->
-        <p style="font-size: 12px;">Text with fixed size</p>
-    
-        <!-- Text over image background without shadow -->
-        <p style="background-image: url('bg.jpg'); color: white;">Text on image</p>
+      <!-- Text in px units -->
+      <p style="font-size: 12px">Text with fixed size</p>
+
+      <!-- Text over image background without shadow -->
+      <p style="background-image: url('bg.jpg'); color: white">Text on image</p>
     </section>
+    <script type="module">
+      document.addEventListener("DOMContentLoaded", () => {
+        const interBubble = document.querySelector(".interactive");
+        let curX = 0;
+        let curY = 0;
+        let tgX = 0;
+        let tgY = 0;
 
-</body>
+        function move() {
+          curX += (tgX - curX) / 20;
+          curY += (tgY - curY) / 20;
+          if (interBubble) {
+            interBubble.style.transform = `translate(${Math.round(
+              curX
+            )}px, ${Math.round(curY)}px)`;
+          }
+          requestAnimationFrame(move);
+        }
+
+        window.addEventListener("mousemove", (event) => {
+          tgX = event.clientX;
+          tgY = event.clientY;
+        });
+
+        move();
+      });
+    </script>
+  </body>
 </html>
